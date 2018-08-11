@@ -6,12 +6,100 @@
 </head>
 <body>
     <img src="photos/CSHARPmodel%20and%20Index.PNG">
+    <p style="float: left">
+        <br/><br/><br/>
+        [Key]<br/>
+        public int Id { get; set; }<br/>
+        <br/>
+        [Required]<br/>
+        public string Name { get; set; }<br/>
+        <br/>
+        [Required]<br/>
+        public string Nickname { get; set; }<br/>
+        <br/>
+        [Required]<br/>
+        public double Price { get; set; }<br/>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        [HttpGet]<br/>
+        [Route("")]<br/>
+        public ActionResult Index()<br/>
+        {<br/>
+        var cats = context.Cats.ToList();<br/>
+        return View(cats);<br/>
+        }<br/>
+        <br/>
+    </p>
     <br/>
     <img src="photos/CSHARPcreate.PNG">
+    <p style="float: left">
+        <br/><br/><br/>
+        [HttpGet]<br/>
+        [Route("create")]<br/>
+        public ActionResult Create()<br/>
+        {<br/>
+        return View();<br/>
+        }<br/>
+        <br/><br/><br/><br/><br/><br/><br/>
+        [HttpPost]<br/>
+        [Route("create")]<br/>
+        public ActionResult Create(Cat cat)<br/>
+        {<br/>
+        context.Cats.Add(cat);<br/>
+        context.SaveChanges();<br/>
+        return RedirectToAction(nameof(Index));<br/>
+        }<br/>
+        <br/>
+    </p>
     <br/>
     <img src="photos/CSHARPedit.PNG">
+    <p style="float: left">
+        <br/><br/><br/><br/><br/>
+        [HttpGet]<br/>
+        [Route("edit/{id}")]<br/>
+        public ActionResult Edit(int id)<br/>
+        {<br/>
+        Cat cat = context<br/>
+        .Cats<br/>
+        .FirstOrDefault(p => p.Id == id);<br/>
+        return View(cat);<br/>
+        }<br/>
+        <br/><br/><br/><br/><br/>
+        [HttpPost]<br/>
+        [Route("edit/{id}")]<br/>
+        [ValidateAntiForgeryToken]<br/>
+        public ActionResult EditConfirm(Cat cat)<br/>
+        {<br/>
+        context.Cats.Update(cat);<br/>
+        context.SaveChanges();<br/>
+        return RedirectToAction("Index");<br/>
+        }<br/>
+        <br/>
+    </p>
     <br/>
     <img src="photos/CSHARPdelete.PNG">
+    <p style="float: left">
+        <br/><br/><br/><br/><br/><br/>
+        [HttpGet]<br/>
+        [Route("delete/{id}")]<br/>
+        public ActionResult Delete(int id)<br/>
+        {<br/>
+        Cat cat = context<br/>
+        .Cats<br/>
+        .FirstOrDefault(p => p.Id == id);<br/>
+        return View(cat);<br/>
+        }<br/>
+        <br/><br/><br/><br/><br/><br/>
+        [HttpPost]<br/>
+        [Route("delete/{id}")]<br/>
+        [ValidateAntiForgeryToken]<br/>
+        public ActionResult DeleteConfirm(Cat cat)<br/>
+        {<br/>
+        context.Cats.Remove(cat);<br/>
+        context.SaveChanges();<br/>
+        return RedirectToAction("Index");<br/>
+        }<br/>
+        <br/>
+    </p>
     <br/>
     <a href="index.html">Back</a>
 </body>

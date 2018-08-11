@@ -6,14 +6,105 @@
 </head>
 <body>
     <img src="photos/JAVAmodel%20and%20Binding%20Model.PNG">
+    <p style="float: left">
+        <br/><br/><br/><br/><br/><br/>
+        @Id<br/>
+        @GeneratedValue(strategy = GenerationType.IDENTITY)<br/>
+        private Integer id;<br/>
+        <br/>
+        @Column<br/>
+        private String name;<br/>
+        <br/>
+        @Column<br/>
+        private String nickname;<br/>
+        <br/>
+        @Column<br/>
+        private Double price;<br/>
+        <br/><br/><br/><br/><br/><br/><br/>
+        private String name;<br/>
+        <br/>
+        private String nickname;<br/>
+        <br/>
+        private Double price;<br/>
+        <br/>
+    </p>
     <br/>
     <img src="photos/JAVAindex.PNG">
+    <p style="float: left">
+        <br/><br/><br/>
+        @GetMapping("/")<br/>
+        public String index(Model model) {<br/>
+        var cats = catRepository.findAll();<br/>
+        model.addAttribute("cats", cats);<br/>
+        model.addAttribute("view", "cat/index");<br/>
+        return "base-layout";<br/>
+        }<br/>
+        <br/>
+    </p>
     <br/>
     <img src="photos/JAVAcreate.PNG">
+    <p style="float: left;">
+        <br/><br/><br/><br/><br/><br/>
+        @GetMapping("/create")<br/>
+        public String create(Model model) {<br/>
+        model.addAttribute("view", "cat/create");<br/>
+        return "base-layout";<br/>
+        }<br/>
+        <br/>
+        @PostMapping("/create")<br/>
+        public String createProcess(Model model, CatBindingModel catBindingModel) {<br/>
+        Cat cat = new Cat();<br/>
+        cat.setName(catBindingModel.getName());<br/>
+        cat.setNickname(catBindingModel.getNickname());<br/>
+        cat.setPrice(catBindingModel.getPrice());<br/>
+        catRepository.saveAndFlush(cat);<br/>
+        return "redirect:/";<br/>
+        }<br/>
+        <br/>
+    </p>
     <br/>
-    <img src="photos/JAVAedit.PNG">
+    <img src="photos/JAVAedit.PNG" style="float: right">
+    <p style="float: left;">
+        <br/><br/><br/><br/><br/><br/>
+        @GetMapping("/edit/{id}")<br/>
+        public String edit(Model model, @PathVariable int id) {<br/>
+        Cat cat = catRepository.findOne(id);<br/>
+        model.addAttribute("cat", cat);<br/>
+        model.addAttribute("view", "cat/edit");<br/>
+        return "base-layout";<br/>
+        }<br/>
+        <br/>
+        @PostMapping("/edit/{id}")<br/>
+        public String editProcess(@PathVariable int id, Model<br/> model, CatBindingModel catBindingModel) {<br/>
+        Cat cat = catRepository.findOne(id);<br/>
+        cat.setName(catBindingModel.getName());<br/>
+        cat.setNickname(catBindingModel.getNickname());<br/>
+        cat.setPrice(catBindingModel.getPrice());<br/>
+        catRepository.saveAndFlush(cat);<br/>
+        return "redirect:/";<br/>
+        }<br/>
+        <br/>
+    </p>
     <br/>
     <img src="photos/JAVAdelete.PNG">
+    <p style="float: left;">
+        <br/><br/><br/><br/><br/><br/>
+        @GetMapping("/delete/{id}")<br/>
+        public String delete(Model model, @PathVariable int id) {<br/>
+        Cat cat = catRepository.findOne(id);<br/>
+        model.addAttribute("cat", cat);<br/>
+        model.addAttribute("view", "cat/delete");<br/>
+        return "base-layout";<br/>
+        }<br/>
+        <br/>
+        @PostMapping("/delete/{id}")<br/>
+        public String deleteProcess(@PathVariable int id, CatBindingModel catBindingModel) {<br/>
+        Cat cat = catRepository.findOne(id);<br/>
+        catRepository.delete(cat);<br/>
+        return "redirect:/";<br/>
+        }<br/>
+        <br/><br/><br/><br/><br/>               <br/>
+    </p>
     <br/>
     <a href="index.html">Back</a>
 </body>
